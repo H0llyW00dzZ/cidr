@@ -44,3 +44,78 @@ func TestIPv4ToRange(t *testing.T) {
 		}
 	}
 }
+
+// TestIPv4RangeVerify tests the IPv4RangeVerify function with various CIDR blocks and IP addresses.
+func TestIPv4RangeVerify(t *testing.T) {
+	tests := []struct {
+		cidr         string
+		ip           string
+		expectWithin bool
+		expectErr    bool
+	}{
+		{"192.168.1.0/24", "192.168.1.5", true, false},
+		{"192.168.1.0/24", "192.168.1.255", true, false},
+		{"192.168.1.0/24", "192.168.2.1", false, false},
+		{"10.0.0.0/8", "10.255.255.255", true, false},
+		{"10.0.0.0/8", "11.0.0.1", false, false},
+		{"0.0.0.0/0", "255.255.255.255", true, false},
+		{"not a cidr", "192.168.1.1", false, true},   // Invalid CIDR block should cause an error.
+		{"192.168.1.0/24", "not an ip", false, true}, // Invalid IP should cause an error.
+	}
+
+	for _, tt := range tests {
+		withinRange, err := IPv4RangeVerify(tt.cidr, tt.ip)
+		if tt.expectErr {
+			if err == nil {
+				t.Errorf("IPv4RangeVerify(%q, %q) expected an error, but no error was returned", tt.cidr, tt.ip)
+			}
+			continue
+		}
+
+		if err != nil {
+			t.Errorf("IPv4RangeVerify(%q, %q) unexpected error: %v", tt.cidr, tt.ip, err)
+			continue
+		}
+
+		if withinRange != tt.expectWithin {
+			t.Errorf("IPv4RangeVerify(%q, %q) = %v; want %v", tt.cidr, tt.ip, withinRange, tt.expectWithin)
+		}
+	}
+}
+
+// TestSingleIPv4ToUint32 tests the singleIPv4ToUint32 function with various IP addresses.
+func TestSingleIPv4ToUint32(t *testing.T) {
+	tests := []struct {
+		ipStr     string
+		want      uint32
+		expectErr bool
+	}{
+		{"192.168.1.1", 0xC0A80101, false},
+		{"10.0.0.1", 0x0A000001, false},
+		{"255.255.255.255", 0xFFFFFFFF, false},
+		{"0.0.0.0", 0x00000000, false},
+		{"256.0.0.1", 0, true},  // Invalid IP should cause an error.
+		{"-1.0.0.1", 0, true},   // Invalid IP should cause an error.
+		{"not.an.ip", 0, true},  // Invalid IP should cause an error.
+		{"10.0.0.256", 0, true}, // Invalid IP should cause an error.
+	}
+
+	for _, tt := range tests {
+		got, err := singleIPv4ToUint32(tt.ipStr)
+		if tt.expectErr {
+			if err == nil {
+				t.Errorf("singleIPv4ToUint32(%q) expected an error, but no error was returned", tt.ipStr)
+			}
+			continue
+		}
+
+		if err != nil {
+			t.Errorf("singleIPv4ToUint32(%q) unexpected error: %v", tt.ipStr, err)
+			continue
+		}
+
+		if got != tt.want {
+			t.Errorf("singleIPv4ToUint32(%q) = %v; want %v", tt.ipStr, got, tt.want)
+		}
+	}
+}
