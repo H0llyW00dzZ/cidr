@@ -1,6 +1,8 @@
 # cidr Range Converter
 
+[![Go Version](https://img.shields.io/badge/1.22.1-gray?style=flat&logo=go&logoWidth=15)](https://github.com/H0llyW00dzZ/cidr/blob/master/go.mod#L3)
 [![Go Reference](https://pkg.go.dev/badge/github.com/H0llyW00dzZ/cidr.svg)](https://pkg.go.dev/github.com/H0llyW00dzZ/cidr)
+[![Go Report Card](https://goreportcard.com/badge/github.com/H0llyW00dzZ/cidr)](https://goreportcard.com/report/github.com/H0llyW00dzZ/cidr)
 
 The `cidr` package provides a Go utility for converting CIDR (Classless Inter-Domain Routing) blocks into a range of numeric IP addresses. It is designed to work specifically with IPv4 addresses and is useful for network-related operations such as checking if an IP address falls within a CIDR range.
 
