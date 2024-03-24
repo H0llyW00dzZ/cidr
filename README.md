@@ -44,3 +44,8 @@ func main() {
     fmt.Printf("CIDR block %s ranges from %d to %d\n", cidrBlock, start, end)
 }
 ```
+
+Another:
+
+- [The Go Playground](https://go.dev/play/p/Nbh-xA2ecN6)
+
