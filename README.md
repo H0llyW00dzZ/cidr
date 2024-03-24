@@ -23,7 +23,7 @@ The `cidr` package provides a Go utility for converting CIDR (Classless Inter-Do
 ## Installation
 
 > [!NOTE]
-> This requires `go1.22.1+`. The reason it's not supported on older versions
+> This requires `go1.22.1+`. The reason it's not supported on older versions (e.g, `go1.21` or `lower`)
 > is because `go1.22+` supports range over integers. If you're advanced in Go, you can easily perform mass checking using multiple goroutines or a single goroutine.
 
 To install the `cidr` package, you need to have Go installed on your machine. Use the following go get command to retrieve the package:
