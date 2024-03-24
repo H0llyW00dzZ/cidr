@@ -1,4 +1,12 @@
-# cidr Range Converter
+<pre>
+   ______      ______________  ____ 
+  / ____/___  / ____/  _/ __ \/ __ \
+ / / __/ __ \/ /    / // / / / /_/ /
+/ /_/ / /_/ / /____/ // /_/ / _, _/    Range Converter
+\____/\____/\____/___/_____/_/ |_|  
+                                    
+Copyright (©️) 2024 @H0llyW00dzZ All rights reserved.
+</pre>
 
 [![Go Version](https://img.shields.io/badge/1.22.1-gray?style=flat&logo=go&logoWidth=15)](https://github.com/H0llyW00dzZ/cidr/blob/master/go.mod#L3)
 [![Go Reference](https://pkg.go.dev/badge/github.com/H0llyW00dzZ/cidr.svg)](https://pkg.go.dev/github.com/H0llyW00dzZ/cidr)
