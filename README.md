@@ -31,35 +31,3 @@ To install the `cidr` package, you need to have Go installed on your machine. Us
 ```sh
 go get github.com/H0llyW00dzZ/cidr
 ```
-
-## Usage
-
-Here's a quick example of how to use the `cidr` package:
-
-```go
-package main
-
-import (
-    "fmt"
-    "net"
-
-    "github.com/H0llyW00dzZ/cidr"
-)
-
-func main() {
-    cidrBlock := "192.168.1.0/24"
-    _, ipNet, err := net.ParseCIDR(cidrBlock)
-    if err != nil {
-        fmt.Printf("Error parsing CIDR block: %v\n", err)
-        return
-    }
-
-    start, end := cidr.IPv4ToRange(ipNet)
-    fmt.Printf("CIDR block %s ranges from %d to %d\n", cidrBlock, start, end)
-}
-```
-
-Another:
-
-- [The Go Playground](https://go.dev/play/p/Nbh-xA2ecN6)
-

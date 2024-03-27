@@ -5,9 +5,28 @@
 package cidr
 
 import (
+	"errors"
 	"net"
 	"strconv"
 	"strings"
+)
+
+var (
+	// ErrInvalidCIDR is returned when an invalid CIDR block is provided.
+	// It indicates that the CIDR block string is not in the correct format.
+	ErrInvalidCIDR = errors.New("cidr: invalid CIDR block")
+
+	// ErrInvalidIP is returned when an invalid IP address is provided.
+	// It indicates that the IP address is not within the valid range of the CIDR block.
+	ErrInvalidIP = errors.New("cidr: invalid IP address")
+
+	// ErrInvalidIPFormat is returned when an IP address string is not in the correct format.
+	// It indicates that the IP address string does not follow the dotted-decimal notation.
+	ErrInvalidIPFormat = errors.New("cidr: invalid IP address format")
+
+	// ErrInvalidByteValue is returned when an invalid byte value is encountered.
+	// It indicates that a byte value in the IP address is not within the valid range of 0 to 255.
+	ErrInvalidByteValue = errors.New("cidr: invalid byte value")
 )
 
 // IPv4ToRange converts a CIDR block to a range of numeric IP addresses.
@@ -63,20 +82,20 @@ func IPv4ToRange(cidr *net.IPNet) (uint32, uint32) {
 func IPv4RangeVerify(cidrBlock, ipStr string) (bool, error) {
 	_, cidrNet, err := net.ParseCIDR(cidrBlock)
 	if err != nil {
-		return false, err
+		return false, ErrInvalidCIDR
 	}
 
 	start, end := IPv4ToRange(cidrNet)
 
-	ipNum, err := singleIPv4ToUint32(ipStr)
+	ipNum, err := SingleIPv4ToUint32(ipStr)
 	if err != nil {
-		return false, err
+		return false, ErrInvalidIP
 	}
 
 	return ipNum >= start && ipNum <= end, nil
 }
 
-// singleIPv4ToUint32 converts an IPv4 address string to its uint32 representation.
+// SingleIPv4ToUint32 converts an IPv4 address string to its uint32 representation.
 //
 // This function parses an IPv4 address in dotted-decimal notation ("192.168.1.1")
 // and converts it to a uint32 integer. Each octet of the IPv4 address is assumed
@@ -91,16 +110,16 @@ func IPv4RangeVerify(cidrBlock, ipStr string) (bool, error) {
 //
 // ipNum: The uint32 representation of the IPv4 address.
 // err: An error if the string is not a valid IPv4 address.
-func singleIPv4ToUint32(ipStr string) (uint32, error) {
+func SingleIPv4ToUint32(ipStr string) (uint32, error) {
 	var ipNum uint32
 	bytes := strings.Split(ipStr, ".")
 	if len(bytes) != 4 {
-		return 0, net.InvalidAddrError("Invalid IP address format")
+		return 0, ErrInvalidIPFormat
 	}
 	for _, b := range bytes {
 		p, err := strconv.ParseUint(b, 10, 8)
 		if err != nil {
-			return 0, err
+			return 0, ErrInvalidByteValue
 		}
 		ipNum = (ipNum << 8) + uint32(p)
 	}
