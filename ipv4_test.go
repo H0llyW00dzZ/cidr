@@ -101,7 +101,7 @@ func TestSingleIPv4ToUint32(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got, err := singleIPv4ToUint32(tt.ipStr)
+		got, err := SingleIPv4ToUint32(tt.ipStr)
 		if tt.expectErr {
 			if err == nil {
 				t.Errorf("singleIPv4ToUint32(%q) expected an error, but no error was returned", tt.ipStr)
