@@ -104,12 +104,12 @@ func IPv4RangeVerify(cidrBlock, ipStr string) (bool, error) {
 //
 // Parameters:
 //
-// ipStr: A string representing the IPv4 address.
+//	ipStr: A string representing the IPv4 address.
 //
 // Returns:
 //
-// ipNum: The uint32 representation of the IPv4 address.
-// err: An error if the string is not a valid IPv4 address.
+//	ipNum: The uint32 representation of the IPv4 address.
+//	err: An error if the string is not a valid IPv4 address.
 func SingleIPv4ToUint32(ipStr string) (uint32, error) {
 	var ipNum uint32
 	bytes := strings.Split(ipStr, ".")
